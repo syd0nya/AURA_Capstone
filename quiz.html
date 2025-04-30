@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Page - AURA</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="quiz.css" />
+    <link rel="stylesheet" href="profile-picture-styler.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="logo-color-enhancement.css">
+
+    <style>
+      .user-name, .welcome-text {
+        opacity: 0.1;
+        transition: opacity 0.3s ease;
+      }
+      .username-loaded {
+        opacity: 1;
+      }
+
+      /* === ENHANCED STYLES FOR QUIZ === */
+      /* Enhanced Night Mode Colors for Better Readability */
+      [data-theme="night"] {
+        /* Improved contrast colors for success/error states */
+        --success-color: #00ffaa; /* Brighter, more vibrant teal */
+        --error-color: #ff6e6e;   /* Softer but clearer red */
+        
+        /* Add these new variables */
+        --success-bg: rgba(0, 255, 170, 0.15); /* Background for success messages */
+        --error-bg: rgba(255, 110, 110, 0.15); /* Background for error messages */
+      }
+
+      /* Enhanced Color Accessibility for Correct/Incorrect Indicators */
+      [data-theme="night"] .correct-answer {
+        color: var(--success-color);
+        background: var(--success-bg);
+        border-left: 3px solid var(--success-color);
+        box-shadow: 0 0 8px rgba(0, 255, 170, 0.2);
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        margin-top: 12px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      [data-theme="night"] .answer-info .correct {
+        color: var(--success-color);
+        background: var(--success-bg);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        display: inline-block;
+        position: relative;
+        text-shadow: none;
+      }
+
+      [data-theme="night"] .answer-info .incorrect {
+        color: var(--error-color);
+        background: var(--error-bg);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        display: inline-block;
+        position: relative;
+        text-shadow: none;
+      }
+
+      /* Add icons to make the correct/incorrect status more obvious beyond just color */
+      [data-theme="night"] .answer-info .correct::before {
+        content: "✓ ";
+        font-weight: bold;
+      }
+
+      [data-theme="night"] .answer-info .incorrect::before {
+        content: "✗ ";
+        font-weight: bold;
+      }
+
+      /* Enhanced Question Items in Results with Better Contrast */
+      [data-theme="night"] .question-item {
+        background: linear-gradient(to right, #1f2b4d, #2a3356);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 18px;
+        border: 1px solid #5470a9;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      [data-theme="night"] .question-item.correct {
+        border-left: 4px solid var(--success-color);
+      }
+
+      [data-theme="night"] .question-item.incorrect {
+        border-left: 4px solid var(--error-color);
+      }
+
+      [data-theme="night"] .question-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Option Item Enhancements */
+      [data-theme="night"] .option-item {
+        background: linear-gradient(to right, #2a3356, #31456e);
+        border-color: #5470a9;
+        padding: 18px;
+        transition: all 0.3s ease, transform 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      [data-theme="night"] .option-item:hover {
+        background: linear-gradient(to right, #31456e, #3d4c7a);
+        transform: translateY(-2px);
+        border-color: #8ac5ff;
+      }
+
+      /* Add subtle animation to checked options */
+      [data-theme="night"] .option-item:has(input[type="radio"]:checked) {
+        background: linear-gradient(to right, #31456e, #3d4c7a);
+        border-color: #8ac5ff;
+        box-shadow: 0 0 15px rgba(138, 197, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      /* Add ripple effect when selecting an option */
+      @keyframes ripple {
+        0% {
+          transform: scale(0);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(2.5);
+          opacity: 0;
+        }
+      }
+
+      [data-theme="night"] .option-item input[type="radio"]:checked::before {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(138, 197, 255, 0.5);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: ripple 0.6s ease-out;
+      }
+
+      /* Custom logo reactions instead of emojis */
+      .logo-reaction {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 15px;
+        animation: bounce 0.6s ease infinite alternate;
+        opacity: 0;
+        animation-delay: 1s;
+        animation-fill-mode: forwards;
+      }
+
+      .logo-reaction img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      /* Donut-style score circle */
+      .score-circle {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: transparent;
+        margin: 30px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible; /* Changed from hidden to show the whole circle */
+      }
+
+      /* Score circle inner content */
+      .score-circle-inner {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: var(--background-secondary);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      [data-theme="night"] .score-circle-inner {
+        background: #2a3356;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Donut fill animation using SVG */
+      .circle-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg); /* Start from top */
+      }
+
+      .circle-bg {
+        fill: none;
+        stroke: var(--background-tertiary);
+        stroke-width: 15;
+      }
+
+      .circle-fill {
+        fill: none;
+        stroke: var(--primary-color);
+        stroke-width: 15;
+        stroke-linecap: round;
+        stroke-dasharray: 565.48; /* Circumference of a circle with r=90 (2*PI*r) */
+        stroke-dashoffset: 565.48; /* Start with empty circle */
+        transition: stroke-dashoffset 2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+      }
+
+      [data-theme="night"] .circle-fill {
+        stroke: var(--primary-color);
+        filter: drop-shadow(0 0 5px rgba(123, 181, 245, 0.5));
+      }
+
+      /* Shining effect for donut fill */
+      @keyframes glowPulse {
+        0% { filter: drop-shadow(0 0 2px rgba(123, 181, 245, 0.3)); }
+        50% { filter: drop-shadow(0 0 5px rgba(123, 181, 245, 0.5)); }
+        100% { filter: drop-shadow(0 0 2px rgba(123, 181, 245, 0.3)); }
+      }
+
+      [data-theme="night"] .circle-fill {
+        animation: glowPulse 2s infinite;
+      }
+
+      /* Score text styles */
+      .score-percentage {
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--text-primary);
+        opacity: 0;
+        transform: translateY(10px);
+        animation: countUp 0.8s forwards;
+        animation-delay: 0.5s;
+      }
+
+      .score-rating {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 6px;
+        color: var(--accent-color);
+        opacity: 0;
+        transform: translateY(10px);
+        animation: countUp 0.8s forwards;
+        animation-delay: 0.7s;
+      }
+
+      /* Enhanced level stars with custom styling */
+      .level-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 25px;
+      }
+
+      .level-star {
+        color: var(--accent-color);
+        font-size: 24px;
+        margin: 0 3px;
+        opacity: 0.3;
+        transition: all 0.4s ease;
+      }
+
+      .level-star.active {
+        color: #FFD700;
+        opacity: 1;
+        filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.5));
+      }
+
+      [data-theme="night"] .level-star.active {
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
+      }
+
+      /* Celebration confetti for high scores */
+      .confetti-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #f00;
+        opacity: 0.8;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        from {
+          transform: translateY(-100px) rotate(0deg);
+          opacity: 0.8;
+        }
+        to {
+          transform: translateY(calc(100vh + 100px)) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes bounce {
+        from { transform: translateY(0); }
+        to { transform: translateY(-8px); }
+      }
+
+      @keyframes countUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Enhanced view transitions for question navigation */
+      .question-container {
+        animation: fadeIn 0.5s ease;
+        position: relative;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Improve button feedback */
+      .nav-button, .flag-button, .submit-button {
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Button ripple effect */
+      .nav-button::after, .flag-button::after, .submit-button::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%, -50%);
+        transform-origin: 50% 50%;
+      }
+
+      @keyframes ripple-effect {
+        0% {
+          transform: scale(0, 0);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(25, 25);
+          opacity: 0;
+        }
+      }
+
+      .nav-button:active::after, .flag-button:active::after, .submit-button:active::after {
+        animation: ripple-effect 0.4s ease-out;
+      }
+
+      /* Enhanced feedback for flagged questions */
+      .flag-button.flagged {
+        color: var(--warning-color);
+        border-color: var(--warning-color);
+        background-color: rgba(251, 191, 36, 0.1);
+      }
+
+      [data-theme="night"] .flag-button.flagged {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+        70% { box-shadow: 0 0 0 8px rgba(251, 191, 36, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+      }
+
+      /* Added accessibility-friendly focus indicators */
+      button:focus, input:focus {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+      }
+
+      /* Question number pill */
+      .question-number {
+        display: inline-block;
+        background-color: var(--accent-color);
+        color: white;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: 10px;
+      }
+
+      [data-theme="night"] .question-number {
+        background-color: #7bb5f5;
+        box-shadow: 0 0 10px rgba(123, 181, 245, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <div class="sidebar-column">
+        <div class="star star-1"></div>
+        <div class="star star-2"></div>
+        <div class="star star-3"></div>
+        <div class="star star-4"></div>
+        <div class="star star-5"></div>
+        <div class="star star-6"></div>
+        <aside class="sidebar">
+        <div class="logo-container">
+            <img loading="lazy" src="aura_head_logo.PNG" class="logo-image" alt="Aura logo" />
+            <div class="logo-text">AURA</div>
+          </div>
+          <div class="user-profile">
+            <div class="user-info">
+              <img loading="lazy" src="default_avatar.svg" class="user-avatar" alt="User avatar" />
+              <div class="user-details">
+                <div class="user-name">User</div>
+              </div>
+            </div>
+          </div>
+          <nav class="main-nav">
+            <ul class="nav-list">
+              <li class="nav-item" onclick="window.location.href='aura.html'">
+                <div class="nav-link">
+                  <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/efcf297df397c9b38745d56455fc5a0f4643758fb07f9317d4487646d362f924?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Dashboard icon" />
+                  <span class="nav-text">Dashboard</span>
+                </div>
+              </li>
+              <li class="nav-item active" onclick="window.location.href='mycourses.html'">
+                <div class="nav-link">
+                  <div class="nav-icon-wrapper">
+                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/7e4782e6f1f5afa6efe604f03bf1347075561660a5ea58537e1a7208704514c4?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="My Courses icon" />
+                  </div>
+                  <div class="nav-text">My Courses</div>
+                </div>
+              </li>
+              <li class="nav-item" onclick="window.location.href='calendar.html'">
+                <div class="nav-link">
+                  <div class="nav-icon-wrapper">
+                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/9447e2aa5c597dcd39d0a9bc7b4cabdf945a9cdbd8076eff279bc84f66090d2d?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Calendar icon" />
+                  </div>
+                  <div class="nav-text">Calendar</div>
+                </div>
+              </li>
+              <li class="nav-item" onclick="window.location.href='progress-analytics.html'">
+                <div class="nav-link">
+                  <div class="nav-icon-wrapper">
+                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/6d682b869a1b0ede1e946d876b2ff1a8b81f16cec5c13220a34e44e9fc9e50eb?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Progress Analytics icon" />
+                  </div>
+                  <div class="nav-text">Progress Analytics</div>
+                </div>
+              </li>
+              <li class="nav-item" onclick="window.location.href='settings.html'">
+                <div class="nav-link">
+                  <div class="nav-icon-wrapper">
+                    <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/be475ce0c5161593bab6cf3e27d8c506d27699bd1c854b69aceabe63f7401887?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Settings icon" />
+                  </div>
+                  <div class="nav-text">Settings</div>
+                </div>
+              </li>
+              <li class="nav-item" onclick="window.location.href='aboutus.html'">
+                <div class="nav-link">
+                  <div class="nav-icon-wrapper">
+                    <img loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA6ElEQVR4nN2UWwrCMBBFDxW7ALsb0TUoPtotqXUXii7JanURPv4jA/FHEzO2+fLChRIm95RJMvDvSoEC2AEV8LCu7FpuaxppClwAE/AZmPwS3AHWimDz5hJINIAm4cZ6qWmLaemxLzxV9LwHZIGa2nfwheLvMgVAPHcB9hHaY6y3LsApIqByAW6KjX1goKiTrA/dFRtfCtVdcegYEXBwAXYRARsXII8ImLkAqR1c3zYOgKHioXXxaBLhio4IqGwRvkAhGbmrhpM04QeNbT9DwbWmLT517eCS2SJ3Wx6jWL5lTW6L90D/Q08RqyheiFaw0QAAAABJRU5ErkJggg==" alt="info" />
+                  </div>
+                  <div class="nav-text">About Us</div>
+        </div>
+              </li>
+            </ul>
+        </nav>
+        </aside>
+      </div>
+
+      <div class="main-content">
+        <h1 class="page-title">Quiz Page</h1>
+
+        <div class="quiz-card">
+          <div class="quiz-header">
+            <a href="#" class="back-button">
+              <i class="fas fa-arrow-left"></i>
+              Quiz
+            </a>
+
+            <div class="progress-container">
+              <span class="progress-text">Question 12 of 20</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 60%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <h2 class="question-text">
+              <span class="question-number">12</span> Which of the following is NOT a type of database index?
+            </h2>
+
+            <div class="options-container">
+              <label class="option-item">
+                <input type="radio" name="answer" value="b-tree" />
+                <span class="option-text">B-tree Index</span>
+              </label>
+
+              <label class="option-item">
+                <input type="radio" name="answer" value="hash" />
+                <span class="option-text">Hash Index</span>
+              </label>
+
+              <label class="option-item">
+                <input type="radio" name="answer" value="circle" checked />
+                <span class="option-text">Circle Index</span>
+              </label>
+
+              <label class="option-item">
+                <input type="radio" name="answer" value="bitmap" />
+                <span class="option-text">Bitmap Index</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quiz-footer">
+            <div class="navigation-buttons">
+              <button class="nav-button prev-button">
+                <i class="fas fa-chevron-left"></i>
+                Previous
+              </button>
+
+              <button class="nav-button next-button">
+                Next
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+
+            <div class="action-buttons">
+              <button class="flag-button">
+                <i class="fas fa-flag"></i>
+                Flag Question
+              </button>
+
+              <button class="submit-button">Submit Quiz</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="theme-init.js"></script>
+    <script src="common.js"></script>
+    <script src="profile-picture-manager.js"></script>
+    
+    <!-- Enhanced Quiz JavaScript -->
+    <script>
+      // Username update script
+      (function() {
+        function updateUsername() {
+          const username = localStorage.getItem('currentUsername');
+          const userNameElement = document.querySelector('.user-name');
+          
+          if (userNameElement && username) {
+            userNameElement.textContent = username;
+            userNameElement.classList.add('username-loaded');
+          }
+          
+          setTimeout(function() {
+            if (userNameElement) {
+              userNameElement.style.opacity = "1";
+              userNameElement.style.visibility = "visible";
+            }
+          }, 500);
+        }
+        
+        updateUsername();
+        setTimeout(updateUsername, 100);
+        window.addEventListener('load', updateUsername);
+      })();
+
+      // Enhanced Quiz Interactivity
+      document.addEventListener("DOMContentLoaded", function () {
+        // Original quiz code initializations
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+          item.addEventListener('click', function() {
+            navItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+
+        // Logout functionality
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+          logoutButton.addEventListener('click', function() {
+            localStorage.removeItem('currentUsername');
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+          });
+        }
+
+        // Load quiz data from localStorage
+        let quizData = [];
+        try {
+          quizData = JSON.parse(localStorage.getItem('quizData')) || [];
+        } catch (e) {
+          console.error('Error loading quiz data:', e);
+          
+          // Sample data for demonstration if no data is found
+          quizData = [
+            {
+              question: "Which of the following is NOT a type of database index?",
+              options: ["B-tree Index", "Hash Index", "Circle Index", "Bitmap Index"],
+              correctAnswer: "Circle Index"
+            },
+            {
+              question: "What is the primary purpose of normalization in database design?",
+              options: ["To eliminate redundancy", "To improve performance", "To simplify queries", "To encrypt data"],
+              correctAnswer: "To eliminate redundancy"
+            }
+          ];
+        }
+
+        // If no quiz data, show message or redirect
+        if (!quizData.length) {
+          alert('No quiz data found. Please generate a quiz first.');
+          // Uncomment to redirect back to upload page
+          // window.location.href = 'upload.html';
+          return;
+        }
+
+        // Quiz state variables
+        let currentQuestionIndex = 0;
+        const userAnswers = new Array(quizData.length).fill(null);
+        const flaggedQuestions = new Set();
+
+        // Get DOM elements
+        const questionText = document.querySelector('.question-text');
+        const optionsContainer = document.querySelector('.options-container');
+        const progressText = document.querySelector('.progress-text');
+        const progressFill = document.querySelector('.progress-fill');
+        const prevButton = document.querySelector('.prev-button');
+        const nextButton = document.querySelector('.next-button');
+        const flagButton = document.querySelector('.flag-button');
+        const submitButton = document.querySelector('.submit-button');
+
+        // Enhanced: Add question number to question text
+        function loadQuestion() {
+          const question = quizData[currentQuestionIndex];
+          
+          // Update question text with question number indicator
+          questionText.innerHTML = `<span class="question-number">${currentQuestionIndex + 1}</span> ${question.question}`;
+          
+          // Update options with enhanced selection feedback
+          optionsContainer.innerHTML = '';
+          question.options.forEach((option, index) => {
+            const isChecked = userAnswers[currentQuestionIndex] === option ? 'checked' : '';
+            optionsContainer.innerHTML += `
+              <label class="option-item">
+                <input type="radio" name="answer" value="${index}" ${isChecked} />
+                <span class="option-text">${option}</span>
+              </label>
+            `;
+          });
+          
+          // Update progress
+          progressText.textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+          progressFill.style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`;
+          
+          // Update flag button state
+          flagButton.classList.toggle('flagged', flaggedQuestions.has(currentQuestionIndex));
+          flagButton.innerHTML = flaggedQuestions.has(currentQuestionIndex) 
+            ? '<i class="fas fa-flag"></i> Flagged'
+            : '<i class="fas fa-flag"></i> Flag Question';
+          
+          // Add click event to each option with enhanced feedback
+          document.querySelectorAll(".option-item").forEach((item, optionIndex) => {
+            item.addEventListener("click", function () {
+              const radio = this.querySelector('input[type="radio"]');
+              radio.checked = true;
+              
+              // Add selection animation
+              addSelectionEffect(this);
+              
+              // Save the answer
+              userAnswers[currentQuestionIndex] = quizData[currentQuestionIndex].options[radio.value];
+            });
+          });
+        }
+
+        // Add visual feedback when selecting an option
+        function addSelectionEffect(element) {
+          // Remove any existing active classes
+          document.querySelectorAll('.option-item').forEach(item => {
+            item.classList.remove('active-selection');
+          });
+          
+          // Add active class
+          element.classList.add('active-selection');
+          
+          // Add ripple effect
+          const ripple = document.createElement('span');
+          ripple.classList.add('ripple-effect');
+          element.appendChild(ripple);
+          
+          // Remove ripple after animation completes
+          setTimeout(() => {
+            ripple.remove();
+          }, 500);
+        }
+
+        // Enhanced navigation with animation
+        prevButton.addEventListener("click", function () {
+          if (currentQuestionIndex > 0) {
+            animateQuestionTransition('right');
+            currentQuestionIndex--;
+            loadQuestion();
+          }
+        });
+
+        nextButton.addEventListener("click", function () {
+          if (currentQuestionIndex < quizData.length - 1) {
+            animateQuestionTransition('left');
+            currentQuestionIndex++;
+            loadQuestion();
+          }
+        });
+
+        // Question transition animation
+        function animateQuestionTransition(direction) {
+          const questionContainer = document.querySelector('.question-container');
+          
+          // Add exit animation class
+          questionContainer.style.opacity = '0';
+          questionContainer.style.transform = `translateX(${direction === 'left' ? '-10px' : '10px'})`;
+          
+          // After a short delay, reset for entrance animation
+          setTimeout(() => {
+            questionContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            questionContainer.style.opacity = '1';
+            questionContainer.style.transform = 'translateX(0)';
+          }, 300);
+        }
+
+        // Flag question for review with enhanced feedback
+        flagButton.addEventListener("click", function () {
+          this.classList.toggle("flagged");
+          if (this.classList.contains('flagged')) {
+            flaggedQuestions.add(currentQuestionIndex);
+            this.innerHTML = '<i class="fas fa-flag"></i> Flagged';
+            
+            // Add quick pulse animation
+            this.animate([
+              { transform: 'scale(1)' },
+              { transform: 'scale(1.1)' },
+              { transform: 'scale(1)' }
+            ], {
+              duration: 300,
+              easing: 'ease-in-out'
+            });
+          } else {
+            flaggedQuestions.delete(currentQuestionIndex);
+            this.innerHTML = '<i class="fas fa-flag"></i> Flag Question';
+          }
+        });
+
+        // Submit quiz
+        submitButton.addEventListener("click", function () {
+          // Check if all questions are answered
+          const unansweredCount = userAnswers.filter(answer => answer === null).length;
+          
+          if (unansweredCount > 0) {
+            if (!confirm(`You have ${unansweredCount} unanswered questions. Do you want to submit anyway?`)) {
+              return;
+            }
+          }
+          
+          // Calculate score
+          let correctAnswers = 0;
+          userAnswers.forEach((answer, index) => {
+            if (answer === quizData[index].correctAnswer) {
+              correctAnswers++;
+            }
+          });
+          
+          const score = Math.round((correctAnswers / quizData.length) * 100);
+
+          // Store the quiz score in localStorage
+          const recentScores = JSON.parse(localStorage.getItem('recentQuizScores')) || [];
+          const newScore = {
+            title: `Quiz ${recentScores.length + 1}`,
+            score: score,
+            date: new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })
+          };
+          recentScores.unshift(newScore); // Add to beginning of array
+          localStorage.setItem('recentQuizScores', JSON.stringify(recentScores));
+          
+          // Display enhanced interactive results
+          displayEnhancedResults(correctAnswers, quizData.length, score);
+        });
+
+        // Enhanced interactive results display with bear logo and donut animation
+        function displayEnhancedResults(correct, total, percentage) {
+          // Replace quiz content with results
+          const mainContent = document.querySelector('.main-content');
+          
+          // Create score message based on percentage
+          const { message, stars } = getScoreMessage(percentage);
+          
+          // Create SVG for donut animation
+          const circleSvg = `
+            <svg class="circle-progress" viewBox="0 0 200 200">
+              <circle class="circle-bg" cx="100" cy="100" r="90" />
+              <circle class="circle-fill" cx="100" cy="100" r="90" />
+            </svg>
+          `;
+          
+          mainContent.innerHTML = `
+            <h1 class="page-title">Quiz Results</h1>
+            
+            <div class="quiz-card results-card">
+              <div class="results-header">
+                <h2>Your Score</h2>
+                
+                <!-- Bear logo reaction instead of emoji -->
+                <div class="logo-reaction">
+                  <img src="quiz-logo.png" alt="Bear mascot" />
+                </div>
+                
+                <!-- Updated score circle with donut animation -->
+                <div class="score-circle">
+                  ${circleSvg}
+                  <div class="score-circle-inner">
+                    <span class="score-percentage">0%</span>
+                    <span class="score-rating">${message}</span>
+                  </div>
+                </div>
+                
+                <!-- Star rating display -->
+                <div class="level-indicator">
+                  ${generateStars(stars)}
+                </div>
+                
+                <p class="score-details">You got ${correct} out of ${total} questions correct</p>
+              </div>
+              
+              <div class="results-breakdown">
+                <h3>Question Breakdown</h3>
+                <div class="questions-list">
+                  ${generateQuestionBreakdown()}
+                </div>
+              </div>
+              
+              <div class="action-buttons results-actions">
+                <button class="review-button" onclick="navigateToQuizTab()">Back to Quiz Tab</button>
+                <button class="new-quiz-button" onclick="window.location.href='upload.html'">Create New Quiz</button>
+              </div>
+            </div>
+          `;
+          
+          // Animate the donut fill and counter
+          setTimeout(() => {
+            // Calculate dashoffset for the circle fill (565.48 is the circumference of our circle)
+            const circleFill = document.querySelector('.circle-fill');
+            const dashoffset = 565.48 * (1 - (percentage / 100));
+            
+            if (circleFill) {
+              circleFill.style.strokeDashoffset = dashoffset;
+            }
+            
+            // Animate the percentage counter
+            const scorePercentage = document.querySelector('.score-percentage');
+            if (scorePercentage) {
+              animateCounter(0, percentage, 1500, value => {
+                scorePercentage.textContent = `${Math.round(value)}%`;
+              });
+            }
+            
+            // Activate stars animation
+            activateStars(stars);
+            
+            // Make bear logo visible
+            document.querySelector('.logo-reaction').style.opacity = '1';
+            
+            // Trigger confetti for high scores
+            if (percentage >= 80) {
+              createConfetti();
+            }
+          }, 500);
+          
+          // Add event listener for review button
+          setTimeout(() => {
+            document.querySelector('.review-button').addEventListener('click', function() {
+              displayQuestionReview();
+            });
+          }, 100);
+        }
+
+        // Generate star rating with improved styling
+        function generateStars(count) {
+          let starsHTML = '';
+          for (let i = 0; i < 5; i++) {
+            starsHTML += `<i class="level-star fas fa-star" data-index="${i}"></i>`;
+          }
+          return starsHTML;
+        }
+
+        // Activate stars sequentially
+        function activateStars(count) {
+          const stars = document.querySelectorAll('.level-star');
+          
+          stars.forEach((star, index) => {
+            setTimeout(() => {
+              if (index < count) {
+                star.classList.add('active');
+              }
+            }, 300 + (index * 200));
+          });
+        }
+
+        // Get score message and star count based on percentage (removed emoji)
+        function getScoreMessage(percentage) {
+          if (percentage >= 90) {
+            return { 
+              message: 'Outstanding!',
+              stars: 5
+            };
+          } else if (percentage >= 80) {
+            return { 
+              message: 'Excellent!',
+              stars: 4
+            };
+          } else if (percentage >= 70) {
+            return { 
+              message: 'Good Job!',
+              stars: 3
+            };
+          } else if (percentage >= 60) {
+            return { 
+              message: 'Not Bad',
+              stars: 2
+            };
+          } else {
+            return { 
+              message: 'Keep Learning',
+              stars: 1
+            };
+          }
+        }
+
+        // Create celebration confetti
+        function createConfetti() {
+          // Create confetti container if it doesn't exist
+          let confettiContainer = document.querySelector('.confetti-container');
+          if (!confettiContainer) {
+            confettiContainer = document.createElement('div');
+            confettiContainer.className = 'confetti-container';
+            document.body.appendChild(confettiContainer);
+          }
+          
+          // Colors for confetti
+          const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+          
+          // Create 100 confetti pieces
+          for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // Random properties
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const left = Math.random() * 100; // Random horizontal position
+            const width = Math.random() * 10 + 5; // Random width
+            const height = Math.random() * 10 + 5; // Random height
+            const duration = Math.random() * 3 + 2; // Random animation duration
+            const delay = Math.random() * 1.5; // Random delay
+            
+            // Apply random styles
+            confetti.style.backgroundColor = color;
+            confetti.style.left = `${left}%`;
+            confetti.style.width = `${width}px`;
+            confetti.style.height = `${height}px`;
+            confetti.style.animationDuration = `${duration}s`;
+            confetti.style.animationDelay = `${delay}s`;
+            
+            // Add to container
+            confettiContainer.appendChild(confetti);
+          }
+          
+          // Remove confetti after 5 seconds
+          setTimeout(() => {
+            confettiContainer.remove();
+          }, 5000);
+        }
+
+        // Counter animation helper
+        function animateCounter(start, end, duration, callback) {
+          const startTime = performance.now();
+          
+          function updateCounter(currentTime) {
+            const elapsedTime = currentTime - startTime;
+            const progress = Math.min(elapsedTime / duration, 1);
+            
+            // Easing function for smoother animation
+            const easedProgress = easeOutQuad(progress);
+            const currentValue = start + (end - start) * easedProgress;
+            
+            callback(currentValue);
+            
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            }
+          }
+          
+          requestAnimationFrame(updateCounter);
+        }
+
+        // Easing function for smoother animations
+        function easeOutQuad(t) {
+          return t * (2 - t);
+        }
+
+        // Enhanced question breakdown with animations
+        function generateQuestionBreakdown() {
+          let html = '';
+          
+          userAnswers.forEach((answer, index) => {
+            const question = quizData[index];
+            const isCorrect = answer === question.correctAnswer;
+            const status = isCorrect ? 'correct' : 'incorrect';
+            const icon = isCorrect ? 'check-circle' : 'times-circle';
+            
+            html += `
+              <div class="question-item ${status}" style="animation: fadeIn 0.5s ease forwards; animation-delay: ${index * 0.1}s; opacity: 0;">
+                <div class="question-status">
+                  <i class="fas fa-${icon}"></i>
+                </div>
+                <div class="question-info">
+                  <p class="question-text"><span class="question-number">${index + 1}</span> ${question.question}</p>
+                  <p class="answer-info">
+                    Your answer: <span class="${status}">${answer || 'Not answered'}</span>
+                    ${!isCorrect ? `<span class="correct-answer">Correct answer: ${question.correctAnswer}</span>` : ''}
+                  </p>
+                </div>
+              </div>
+            `;
+          });
+          
+          return html;
+        }
+
+        // Display detailed question review
+        function displayQuestionReview() {
+          // Implement if needed - shows each question with user's answer and correct answer
+          console.log("Display question review");
+        }
+
+        // Initialize the quiz
+        loadQuestion();
+      });
+
+      function navigateToQuizTab() {
+        // Store the tab preference in localStorage
+        localStorage.setItem('selectedTab', 'quizzes');
+        // Navigate to coursepage.html
+        window.location.href = 'coursepage.html';
+      }
+    </script>
+  </body>
+</html>
