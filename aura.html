@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Dashboard</title>
+  <link rel="stylesheet" href="aura.css">
+  <link rel="stylesheet" href="profile-picture-styler.css">
+  <link rel="stylesheet" href="aura-header-branding.css">
+  <link rel="stylesheet" href="enhanced-recentcourses.css">
+  <link rel="stylesheet" href="welcome-message.css">
+  <link rel="stylesheet" href="weather-widget.css">
+
+  <link rel="stylesheet" href="mood.css">
+
+
+  <link rel="stylesheet" href="logo-color-enhancement.css">
+
+
+
+
+  <script src="mood.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <style>
+    /* Initially set opacity low but not completely hidden */
+    .user-name, .welcome-text {
+      opacity: 0.1; /* Almost invisible but not completely hidden */
+      transition: opacity 0.3s ease;
+    }
+    
+    /* This class will be added by JavaScript when the real username is ready */
+    .username-loaded {
+      opacity: 1;
+    }
+  </style>
+
+
+<script src="theme-init.js"></script>
+
+</head>
+
+<body>
+    <div class="dashboard">
+        <div class="body">
+          <div class="content-wrapper">
+            <div class="layout-container">
+              <div class="sidebar-column">
+                <aside class="sidebar">
+                  <div class="logo-container">
+                    <img loading="lazy" src="aura_head_logo.PNG" class="logo-image" alt="Aura logo" />
+                    <div class="logo-text">AURA</div>
+                  </div>
+                  <div class="user-profile">
+                    <div class="user-info">
+                      <img loading="lazy" src="default_avatar.svg" class="user-avatar" alt="User avatar" />
+                      <div class="user-details">
+                        <div class="user-name">User</div>
+                        <button id="logoutButton" class="Logout-button">Logout</button>
+                      </div>
+                    </div>
+                  </div>
+                  <nav class="main-nav">
+                    <ul class="nav-list">
+                      <li class="nav-item active">
+                        <div class="nav-link">
+                          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/efcf297df397c9b38745d56455fc5a0f4643758fb07f9317d4487646d362f924?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Dashboard icon" />
+                          <span class="nav-text">Dashboard</span>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="nav-link">
+                          <div class="nav-icon-wrapper">
+                            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/7e4782e6f1f5afa6efe604f03bf1347075561660a5ea58537e1a7208704514c4?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="My Courses icon" />
+                          </div>
+                          <div class="nav-text">My Courses</div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="nav-link">
+                          <div class="nav-icon-wrapper">
+                            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/9447e2aa5c597dcd39d0a9bc7b4cabdf945a9cdbd8076eff279bc84f66090d2d?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Calendar icon" />
+                          </div>
+                          <div class="nav-text">Calendar</div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="nav-link">
+                          <div class="nav-icon-wrapper">
+                            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/6d682b869a1b0ede1e946d876b2ff1a8b81f16cec5c13220a34e44e9fc9e50eb?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Progress Analytics icon" />
+                          </div>
+                          <div class="nav-text">Progress Analytics</div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="nav-link">
+                          <div class="nav-icon-wrapper">
+                            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/be475ce0c5161593bab6cf3e27d8c506d27699bd1c854b69aceabe63f7401887?apiKey=5b35dfe34207418398a5304200905620&" class="nav-icon" alt="Settings icon" />
+                          </div>
+                          <div class="nav-text">Settings</div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <div class="nav-link">
+                          <div class="nav-icon-wrapper">
+                
+                            <img loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA6ElEQVR4nN2UWwrCMBBFDxW7ALsb0TUoPtotqXUXii7JanURPv4jA/FHEzO2+fLChRIm95RJMvDvSoEC2AEV8LCu7FpuaxppClwAE/AZmPwS3AHWimDz5hJINIAm4cZ6qWmLaemxLzxV9LwHZIGa2nfwheLvMgVAPHcB9hHaY6y3LsApIqByAW6KjX1goKiTrA/dFRtfCtVdcegYEXBwAXYRARsXII8ImLkAqR1c3zYOgKHioXXxaBLhio4IqGwRvkAhGbmrhpM04QeNbT9DwbWmLT517eCS2SJ3Wx6jWL5lTW6L90D/Q08RqyheiFaw0QAAAABJRU5ErkJggg==" alt="info"></img>
+                          </div>
+                          <div class="nav-text" onclick="window.location.href='aboutus.html';">About Us</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </nav>
+
+                </aside>
+              </div>
+              <div class="main-content-column">
+                <div class="main-content">
+                  <main class="dashboard-main">
+                    <header class="dashboard-header">
+                      <div class="header-content">
+                        <div class="welcome-section">
+                          <div class="welcome-text">Welcome back!</div>
+                          <div class="current-date">Monday, January 15, 2025</div>
+                        </div>
+                        <div class="streak-container">
+                          <div class="streak-badge">
+                            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/5b35dfe34207418398a5304200905620/b3491cd45f9406679e1482b630bd2f51c186936e7f33c5260ef268c12455a1b1?apiKey=5b35dfe34207418398a5304200905620&" class="streak-icon" alt="Streak icon" />
+                            <span class="streak-count">0 Days</span>
+                          </div>
+                        </div>
+                      </div>
+                    </header>
+                    <div class="dashboard-content">
+                      <div class="content-grid">
+                        <div class="main-section-column">
+                          <div class="main-section">
+                            <section class="recent-courses">
+                              <h2 class="section-title">Recent Courses</h2>
+                              <div class="courses-grid">
+                                <!-- Courses will be dynamically added here by JavaScript -->
+                              </div>
+                            </section>
+                            <div class="additional-courses">
+                              <div class="courses-grid">
+                                <!-- Additional courses will be dynamically added here by JavaScript -->
+                              </div>
+                            </div>
+                            <section class="upcoming-tasks">
+                              <div class="section-header">
+                                <h2 class="section-title">Upcoming Tasks</h2>
+                              </div>
+                              <div class="tasks-list">
+                                <!-- Tasks will be dynamically added here -->
+                              </div>
+                            </section>
+                          </div>
+                        </div>
+
+
+
+
+                        <div class="dashboard-column">
+                          <div class="mood-widget">
+                              <div id="rate-your-mood" class="mood-title">Rate Your Mood Today</div>
+                              
+                              <div class="mood-track" id="mood-track">
+                                  <div class="mood-dragger" id="mood-dragger"></div>
+                              </div>
+                              <div class="mood-labels">
+                                  <span>Sad</span>
+                                  <span>Neutral</span>
+                                  <span>Happy</span>
+                              </div>
+                              <div class="recommendation" id="recommendation">
+                                  <!-- Recommendation will be displayed here -->
+                              </div>
+                          </div>
+                      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="sidebar-column">
+                          <div class="sidebar-content">
+                            <section class="achievements-section">
+                                <h2 class="section-title">Achievements</h2>
+                                <div class="achievements-list">
+                                  <!-- Achievements will be dynamically added here -->
+                                </div>
+                              </section>
+                            <section class="quick-stats">
+                              <h2 class="section-title">Quick Stats</h2>
+                              <div class="stats-grid">
+                                <!-- Stats will be dynamically added here -->
+                              </div>
+                            </section>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </main>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h2>Exam Calendar</h2>
+                            <div class="calendar-navigation">
+                                <button class="prev-month">←</button>
+                                <span class="calendar-month-year"></span>
+                                <button class="next-month">→</button>
+                            </div>
+                        </div>
+                
+                        <div class="calendar-body">
+                            <div class="calendar-weekdays">
+                                <div class="weekday">Sun</div>
+                                <div class="weekday">Mon</div>
+                                <div class="weekday">Tue</div>
+                                <div class="weekday">Wed</div>
+                                <div class="weekday">Thu</div>
+                                <div class="weekday">Fri</div>
+                                <div class="weekday">Sat</div>
+                            </div>
+                
+                            <div class="calendar-days">
+                                <!-- Calendar days will be generated by JavaScript -->
+                            </div>
+                        </div>
+                
+                        <div class="event-details hidden">
+                            <!-- Event details will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <script src="aura.js"></script>
+  <script src="common.js"></script>
+  <script src="profile-picture-manager.js"></script>
+  <script src="welcome-message.js"></script>
+  <script src="weather-widget.js"></script>
+
+
+
+
+
+<script>
+  // Updated script to handle the case where no username shows
+  (function() {
+    function updateUsername() {
+      console.log("Username update running...");
+      
+      // Get username from localStorage
+      const username = localStorage.getItem('currentUsername');
+      console.log("Username from localStorage:", username);
+      
+      // Get the elements
+      const userNameElement = document.querySelector('.user-name');
+      const welcomeTextElement = document.querySelector('.welcome-text');
+      
+      if (userNameElement) {
+        console.log("Found user-name element:", userNameElement.textContent);
+        
+        // Always update and show, even if no username
+        if (username) {
+          userNameElement.textContent = username;
+        }
+        userNameElement.classList.add('username-loaded');
+      } else {
+        console.log("Could not find .user-name element");
+      }
+      
+      if (welcomeTextElement) {
+        console.log("Found welcome-text element:", welcomeTextElement.textContent);
+        
+        // Always update and show, even if no username
+        if (username) {
+          welcomeTextElement.textContent = `Welcome back, ${username}!`;
+        } else {
+          welcomeTextElement.textContent = "Welcome back!";
+        }
+        welcomeTextElement.classList.add('username-loaded');
+      } else {
+        console.log("Could not find .welcome-text element");
+      }
+      
+      // If we still don't see anything, try forcing visibility
+      setTimeout(function() {
+        if (userNameElement) {
+          userNameElement.style.opacity = "1";
+          userNameElement.style.visibility = "visible";
+        }
+        if (welcomeTextElement) {
+          welcomeTextElement.style.opacity = "1";  
+          welcomeTextElement.style.visibility = "visible";
+        }
+      }, 500);
+    }
+    
+    // Run immediately
+    updateUsername();
+    
+    // Run again after DOM has had time to load
+    setTimeout(updateUsername, 100);
+    
+    // Run one more time after full page load
+    window.addEventListener('load', updateUsername);
+  })();
+</script>
+
+<script>
+    // Initialize study time tracking when first visiting the dashboard
+    if (window.analyticsData) {
+        window.analyticsData.initializeStudyTime();
+    } else {
+        // If analyticsData is not available, initialize directly
+        const STUDY_TIME_KEY = 'aura_study_start_time';
+        if (!localStorage.getItem(STUDY_TIME_KEY)) {
+            localStorage.setItem(STUDY_TIME_KEY, Date.now().toString());
+        }
+    }
+</script>
+
+</body>
+</html>
