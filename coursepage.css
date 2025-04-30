@@ -1,0 +1,2229 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    Inter,
+    Roboto,
+    Helvetica,
+    sans-serif;
+  background-color: rgb(238, 237, 231);
+}
+
+
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar-column {
+  width: 16%;
+  background-image: linear-gradient(180deg, #a1cbdd, #f7aec2);
+  border-right: 1px solid #e5e7eb;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 27px;
+  height: 100%;
+}
+
+/* Logo Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  width: 119.5%;
+  gap: 5px;
+  padding: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo-image {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 200;
+}
+
+/* DAY MODE - White/Light Theme */
+:root:not([data-theme="night"]) .logo-container {
+  /* Light gradient for day mode */
+  background: linear-gradient(to right, #eeede7, #ffffff) !important;
+  
+  /* Text color for day mode */
+  color: #2d3748 !important; /* Dark text for contrast */
+  
+  /* Border for day mode */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Day mode text color */
+:root:not([data-theme="night"]) .logo-text {
+  color: #2d3748 !important; /* Dark text */
+}
+
+/* NIGHT MODE - Blue Gradient (as in screenshot) */
+[data-theme="night"] .logo-container {
+  /* Exact gradient match from screenshot */
+  background: linear-gradient(to right, #3b7abd, #1e2c54) !important;
+  
+  /* Text color for night mode */
+  color: white !important;
+  
+  /* Border for night mode */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Night mode text color */
+[data-theme="night"] .logo-text {
+  color: white !important;
+}
+
+
+/* User Profile */
+.user-profile {
+  padding: 16px 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.user-streak {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+/* Navigation */
+.main-nav {
+  padding: 15px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+}
+
+.nav-item.active .nav-link {
+  background-color: #5997ac;
+  color: #ffffff;
+}
+
+.nav-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.nav-text {
+  font-size: 15px;
+}
+
+/* Main Content Area */
+.main-content-column {
+  flex: 1;
+  padding: 20px;
+}
+
+.dashboard-header {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.welcome-text {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.current-date {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* Streak Badge */
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffedd5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .layout-container {
+      flex-direction: column;
+  }
+
+  .sidebar-column {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #e5e7eb;
+  }
+}
+
+
+/* ==========================================
+Course Pages Styles
+========================================== */
+
+/* Base styles */
+:root {
+  --primary-color: rgb(89, 151, 172);
+  --success-color: rgb(22, 163, 74);
+  --warning-color: rgb(202, 138, 4);
+  --link-color:#5997ac;
+  --text-primary: rgb(0, 0, 0);
+  --text-secondary: rgb(75, 85, 99);
+  --text-tertiary: rgb(107, 114, 128);
+  --border-color: rgb(229, 231, 235);
+  --bg-light: rgb(249, 250, 251);
+  --bg-white: rgb(255, 255, 255);
+  --brand-color: rgb(175, 81, 102);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 33px 30px 28px;
+}
+
+.course-header {
+  margin-bottom: 30px;
+}
+
+.course-title h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.course-title h2 {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 14px 0 0;
+  font-weight: 400;
+}
+
+.course-nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.course-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  color: var(--text-tertiary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.nav-button.active {
+  color:#5997ac;
+  border-bottom: 2px solid var(--link-color);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-white);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.action-btn.upload-btn {
+  background-color: var(--primary-color);
+  color: var(--bg-white);
+  border: none;
+}
+
+.btn-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+/* Progress Section */
+.progress-section {
+  margin-bottom: 20px;
+}
+
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.progress-card,
+.quiz-card,
+.streak-card {
+  background: var(--bg-white);
+  margin-top: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 11px;
+  padding: 23px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+
+.progress-card h3,
+.quiz-card h3,
+.streak-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+
+.progress-info {
+  margin-bottom: 15px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.progress-label {
+  background-color: rgb(224, 231, 255);
+  padding: 5px 8px;
+  border-radius: 9355px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.progress-percentage {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.progress-bar {
+  background-color: rgb(224, 231, 255);
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background-color: var(--primary-color);
+  /* Remove the hardcoded width */
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+}
+
+
+.progress-stats {
+  display: flex;
+  gap: 47px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.progress-stats p {
+  margin: 0;
+}
+
+/* Quiz Card */
+.quiz-card {
+  background: var(--background-secondary, #ffffff);
+  border: 1px solid var(--border-color);
+  border-radius: 11px;
+  padding: 23px;
+  box-shadow: 0px 1px 2px var(--card-shadow, rgba(0, 0, 0, 0.05));
+}
+
+.quiz-section-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: var(--text-primary);
+}
+
+.upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upcoming-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--background-tertiary, #f8f9fa);
+  transition: all 0.2s ease;
+}
+
+.upcoming-item:hover {
+  background-color: var(--background-hover, #f3f4f6);
+  transform: translateY(-1px);
+}
+
+.quiz-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent-color, #5997ac);
+  color: var(--text-on-accent, #ffffff);
+}
+
+.quiz-icon.locked {
+  background-color: var(--text-secondary, #6b7280);
+}
+
+.quiz-info {
+  flex: 1;
+}
+
+.quiz-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--text-primary);
+}
+
+.quiz-date {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.quiz-status {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.quiz-status.pending {
+  background-color: var(--warning-light, #fff7ed);
+  color: var(--warning-color, #ca8a04);
+}
+
+.quiz-status.scheduled {
+  background-color: var(--accent-light-transparent, rgba(89, 151, 172, 0.1));
+  color: var(--accent-color, #5997ac);
+}
+
+.quiz-status.excellent {
+  background-color: var(--success-light, #ecfdf5);
+  color: var(--success-color, #059669);
+}
+
+.quiz-status.good {
+  background-color: var(--accent-light-transparent, rgba(89, 151, 172, 0.1));
+  color: var(--accent-color, #5997ac);
+}
+
+.quiz-status.average {
+  background-color: var(--warning-light, #fff7ed);
+  color: var(--warning-color, #ca8a04);
+}
+
+.quiz-status.needs-improvement {
+  background-color: var(--error-light, #fef2f2);
+  color: var(--error-color, #dc2626);
+}
+
+/* Empty state styling */
+.quiz-empty-state {
+  text-align: center;
+  padding: 30px 20px;
+  background-color: var(--background-tertiary, #f8f9fa);
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.quiz-empty-icon {
+  font-size: 24px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.quiz-empty-message {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.quiz-empty-submessage {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin: 8px 0 0;
+}
+
+/* Night mode enhancements */
+[data-theme="night"] .quiz-card {
+  background-color: var(--background-secondary, #1f2937);
+}
+
+[data-theme="night"] .upcoming-item {
+  background-color: var(--background-tertiary, #374151);
+}
+
+[data-theme="night"] .upcoming-item:hover {
+  background-color: var(--background-hover, #4b5563);
+}
+
+[data-theme="night"] .quiz-empty-state {
+  background-color: var(--background-tertiary, #374151);
+}
+
+[data-theme="night"] .quiz-status.pending {
+  background-color: var(--warning-dark, #78350f);
+  color: var(--warning-light, #fef3c7);
+}
+
+[data-theme="night"] .quiz-status.scheduled {
+  background-color: var(--accent-dark-transparent, rgba(89, 151, 172, 0.2));
+  color: var(--accent-light, #a1cbdd);
+}
+
+[data-theme="night"] .quiz-status.excellent {
+  background-color: var(--success-dark, #064e3b);
+  color: var(--success-light, #d1fae5);
+}
+
+[data-theme="night"] .quiz-status.good {
+  background-color: var(--accent-dark-transparent, rgba(89, 151, 172, 0.2));
+  color: var(--accent-light, #a1cbdd);
+}
+
+[data-theme="night"] .quiz-status.average {
+  background-color: var(--warning-dark, #78350f);
+  color: var(--warning-light, #fef3c7);
+}
+
+[data-theme="night"] .quiz-status.needs-improvement {
+  background-color: var(--error-dark, #7f1d1d);
+  color: var(--error-light, #fee2e2);
+}
+
+/* Streak Card */
+.streak-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.streak-icon {
+  width: 40px;
+  aspect-ratio: 1.38;
+  object-fit: contain;
+}
+
+.streak-info p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.streak-chart {
+  width: 100%;
+  aspect-ratio: 40;
+  object-fit: contain;
+}
+
+/* Content Section */
+.content-grid {
+  display: grid;
+  grid-template-columns: 68% 32%;
+  gap: 20px;
+}
+
+.documents-card,
+.flashcards-card,
+.scores-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 11px;
+  padding: 24px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  margin-bottom: 21px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--link-color);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.document-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.document-item {
+  background-color: var(--bg-light);
+  border-radius: 7px;
+  padding: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.document-info {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-icon {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+
+.document-details h4 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.document-details p {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.download-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+/* Flashcards */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.flashcard {
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 16px;
+}
+
+.flashcard h4 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 0 17px;
+}
+
+.flashcard p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Todo List */
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  position: relative;
+  padding-right: 30px;
+}
+
+.todo-checkbox {
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--text-primary);
+  border-radius: 1px;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Quiz Scores */
+.scores-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.quiz-name {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.score {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.score.high {
+  color: var(--success-color);
+}
+
+.score.medium {
+  color: var(--warning-color);
+}
+
+/* CSS for Checkbox Checkmarks */
+.todo-item input[type="checkbox"] {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 2px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.3s;
+  cursor: pointer;
+  background-color: var(--background-secondary, #ffffff);
+}
+
+.todo-item input[type="checkbox"]:checked {
+  background-color: var(--primary-color, #5997ac);
+  border-color: var(--primary-color, #5997ac);
+}
+
+.todo-item input[type="checkbox"]:checked::before {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+}
+
+/* Add delete button for tasks */
+.delete-task-btn {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0.5;
+  font-size: 14px;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.todo-item:hover .delete-task-btn {
+  opacity: 1;
+  color: #ef4444;
+}
+
+.delete-task-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Enhanced Modal Styling */
+/* Fixed positioning to ensure it's always a popup */
+.documents-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Very high z-index to ensure it's on top */
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.documents-modal-container.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.documents-modal {
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  background-color: var(--background-secondary, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(20px);
+  transition: transform 0.3s;
+  z-index: 10000;
+}
+
+.documents-modal-container.active .documents-modal {
+  transform: translateY(0);
+}
+
+/* Modal header styling */
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--accent-color, #5997ac);
+  color: white;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.close-modal-btn:hover {
+  color: white;
+}
+
+/* Modal content styling */
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(80vh - 70px);
+}
+
+.modal-documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Task Modal Popup Styling */
+.task-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.task-modal-container.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.task-modal {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 400px;
+  max-width: 90%;
+  transform: translateY(20px);
+  transition: transform 0.3s;
+  overflow: hidden;
+}
+
+.task-modal-container.active .task-modal {
+  transform: translateY(0);
+}
+
+.task-modal-header {
+  background-color: var(--primary-color, #5997ac);
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.task-modal-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.task-modal-close:hover {
+  color: white;
+}
+
+.task-modal-body {
+  padding: 20px;
+}
+
+.task-input-group {
+  margin-bottom: 20px;
+}
+
+.task-input-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color, #333);
+  font-size: 14px;
+}
+
+.task-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.task-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #5997ac);
+  box-shadow: 0 0 0 2px rgba(89, 151, 172, 0.2);
+}
+
+.task-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.task-action-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel {
+  background-color: #f1f1f1;
+  color: #666;
+}
+
+.btn-cancel:hover {
+  background-color: #e1e1e1;
+}
+
+.btn-add {
+  background-color: var(--primary-color, #5997ac);
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: var(--primary-hover, #4a8698);
+}
+
+/* Confetti Animation */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.confetti {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Motivational Message */
+.motivation-message {
+  margin-bottom: 20px;
+  animation: slideDown 0.5s ease-out;
+  max-width: 100%;
+}
+
+.motivation-content {
+  background-color: var(--primary-color, #5997ac);
+  color: white;
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.motivation-content i.fa-trophy {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #ffd700;
+}
+
+.close-motivation-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  margin-left: auto;
+  padding: 0;
+  font-size: 12px;
+  transition: color 0.2s;
+}
+
+.close-motivation-btn:hover {
+  color: white;
+}
+
+@keyframes slideDown {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.motivation-message.fadeout {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-20px); opacity: 0; }
+}
+
+/* Messages */
+.loading-documents,
+.no-documents, 
+.error-message {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-tertiary, #6b7280);
+}
+
+.loading-documents {
+  font-style: italic;
+}
+
+.error-message {
+  color: #f44336;
+}
+
+/* Night mode enhancements */
+[data-theme="night"] body {
+  background-color: #1a1a2e;
+  color: #e5e7eb;
+}
+
+[data-theme="night"] .main-content {
+  background-color: #1a1a2e;
+}
+
+[data-theme="night"] .course-header,
+[data-theme="night"] .progress-card,
+[data-theme="night"] .quiz-card,
+[data-theme="night"] .streak-card,
+[data-theme="night"] .featured-content-card,
+[data-theme="night"] .todo-card,
+[data-theme="night"] .scores-card,
+[data-theme="night"] .documents-section,
+[data-theme="night"] .upload-section,
+[data-theme="night"] .course-documents {
+  background-color: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="night"] .course-title h1,
+[data-theme="night"] .course-title h2,
+[data-theme="night"] h3,
+[data-theme="night"] h4,
+[data-theme="night"] .section-title {
+  color: #e5e7eb;
+}
+
+[data-theme="night"] .progress-label {
+  background-color: rgba(123, 181, 245, 0.2);
+  color: #7bb5f5;
+}
+
+[data-theme="night"] .progress-bar {
+  background-color: rgba(123, 181, 245, 0.2);
+}
+
+[data-theme="night"] .progress-fill {
+  background-color: #5997ac;
+}
+
+/* To-Do List Night Mode Enhancements */
+[data-theme="night"] .todo-card {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="night"] .todo-title {
+  color: #f3f4f6 !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="night"] .todo-item {
+  border-bottom: 1px solid #374151 !important;
+  background-color: #1f2937 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+  margin-bottom: 8px !important;
+}
+
+[data-theme="night"] .todo-item span {
+  color: #e5e7eb !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="night"] .todo-item.completed span,
+[data-theme="night"] .completed-tasks-list .todo-item span {
+  color: #9ca3af !important;
+  text-decoration: line-through !important;
+  opacity: 0.8 !important;
+}
+
+/* Enhanced Checkbox Styling for Night Mode */
+[data-theme="night"] .todo-item input[type="checkbox"] {
+  border: 2px solid #4b5563 !important;
+  background-color: #1f2937 !important;
+}
+
+[data-theme="night"] .todo-item input[type="checkbox"]:checked {
+  background-color: #5997ac !important;
+  border-color: #5997ac !important;
+}
+
+[data-theme="night"] .todo-item input[type="checkbox"]:checked::after {
+  color: #f3f4f6 !important;
+}
+
+/* Enhanced Button Styling for Night Mode */
+[data-theme="night"] .action-btn {
+  background-color: #374151 !important;
+  color: #e5e7eb !important;
+  border: 1px solid #4b5563 !important;
+}
+
+[data-theme="night"] .action-btn:hover {
+  background-color: #4b5563 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="night"] .action-btn.upload-btn,
+[data-theme="night"] #add-task-btn {
+  background-color: #5997ac !important;
+  color: #f3f4f6 !important;
+  border: none !important;
+}
+
+[data-theme="night"] .action-btn.upload-btn:hover,
+[data-theme="night"] #add-task-btn:hover {
+  background-color: #4a8698 !important;
+}
+
+[data-theme="night"] #delete-all-btn,
+[data-theme="night"] .action-btn.danger {
+  background-color: #991b1b !important;
+  color: #f3f4f6 !important;
+}
+
+[data-theme="night"] #delete-all-btn:hover,
+[data-theme="night"] .action-btn.danger:hover {
+  background-color: #b91c1c !important;
+}
+
+/* Section Headers */
+[data-theme="night"] .section-title {
+  color: #e5e7eb !important;
+  border-bottom: 1px solid #374151 !important;
+  padding-bottom: 10px !important;
+}
+
+/* Enhanced Completed Tasks Section */
+[data-theme="night"] .completed-tasks-section {
+  border-top: 1px solid #374151 !important;
+  margin-top: 20px !important;
+  padding-top: 15px !important;
+}
+
+/* Empty List Messages */
+[data-theme="night"] .todo-list:empty::before,
+[data-theme="night"] .completed-tasks-list:empty::before {
+  color: #9ca3af !important;
+}
+
+/* Delete Task Button Enhancement */
+[data-theme="night"] .delete-task-btn {
+  color: #9ca3af !important;
+}
+
+[data-theme="night"] .todo-item:hover .delete-task-btn {
+  color: #f87171 !important;
+}
+
+[data-theme="night"] .delete-task-btn:hover {
+  background-color: rgba(248, 113, 113, 0.2) !important;
+}
+
+/* Fix for buttons and tab visibility */
+[data-theme="night"] .nav-button,
+[data-theme="night"] .nav-button.active {
+  color: #e5e7eb !important;
+  border-color: #5997ac !important;
+}
+
+[data-theme="night"] .nav-button.active {
+  border-bottom: 2px solid #5997ac !important;
+  font-weight: 600 !important;
+}
+
+/* Task Modal Night Mode */
+[data-theme="night"] .task-modal {
+  background-color: #1f2937;
+  border: 1px solid #374151;
+}
+
+[data-theme="night"] .task-modal-header {
+  background-color: #5997ac;
+}
+
+[data-theme="night"] .task-input-label {
+  color: #e5e7eb;
+}
+
+[data-theme="night"] .task-input {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+[data-theme="night"] .task-input:focus {
+  border-color: #5997ac;
+  box-shadow: 0 0 0 2px rgba(89, 151, 172, 0.3);
+}
+
+[data-theme="night"] .btn-cancel {
+  background-color: #374151;
+  color: #e5e7eb;
+}
+
+[data-theme="night"] .btn-cancel:hover {
+  background-color: #4b5563;
+}
+
+/* Completed tasks and todo items */
+.todo-item.completed span, 
+.completed-tasks-list .todo-item span {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.completed-tasks-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #4b5563;
+}
+
+.todo-list:empty::before,
+.completed-tasks-list:empty::before {
+  content: "No tasks yet";
+  display: block;
+  padding: 10px 0;
+  text-align: center;
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.completed-tasks-list:empty::before {
+  content: "No completed tasks";
+}
+
+/* Task buttons */
+.todo-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#add-task-btn {
+  background-color: #5997ac;
+  color: #ffffff;
+  flex: 1;
+}
+
+#delete-all-btn {
+  background-color: #ef4444;
+  color: #ffffff;
+  flex: 1;
+}
+
+/* Featured Content Card (Learning Spotlight) */
+.featured-content-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.featured-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #111827;
+}
+
+.featured-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.featured-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.featured-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.featured-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  background-color: #5997ac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+.featured-details {
+  flex: 1;
+}
+
+.featured-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #111827;
+}
+
+.featured-description {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+/* Enhanced To-Do Card Styling */
+
+.todo-card {
+  background: var(--background-secondary, #ffffff);
+  border: 1px solid var(--border-color);
+  border-radius: 11px;
+  box-shadow: 0px 1px 2px var(--card-shadow, rgba(0, 0, 0, 0.05));
+  margin-bottom: 21px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-card .card-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-tertiary, #f8f9fa);
+}
+
+.todo-card .card-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* Add task section */
+.add-task-section {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.add-task-input-container {
+  display: flex;
+  background-color: var(--background-tertiary, #f5f7f9);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.add-task-input-container:focus-within {
+  border-color: var(--accent-color, #5997ac);
+  box-shadow: 0 0 0 2px var(--accent-light-transparent, rgba(89, 151, 172, 0.2));
+}
+
+.add-task-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.add-task-input:focus {
+  outline: none;
+}
+
+.add-task-btn {
+  width: 42px;
+  background-color: var(--accent-color, #5997ac);
+  color: var(--text-on-accent, #ffffff);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.add-task-btn:hover {
+  background-color: var(--accent-light, #4a8697);
+}
+
+.add-task-btn i {
+  font-size: 14px;
+}
+
+/* Todo category tabs */
+.todo-category-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-tertiary, #fafafa);
+}
+
+.todo-tab {
+  flex: 1;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: var(--text-secondary, #666);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.todo-tab:hover {
+  color: var(--accent-color, #5997ac);
+}
+
+.todo-tab.active {
+  color: var(--accent-color, #5997ac);
+  font-weight: 500;
+}
+
+.todo-tab.active:after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--accent-color, #5997ac);
+}
+
+/* Todo list */
+.todo-list {
+  padding: 10px 20px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 250px;
+  background-color: var(--background-secondary, #ffffff);
+}
+
+/* Task items */
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item:hover {
+  background-color: var(--accent-light-transparent, rgba(89, 151, 172, 0.05));
+}
+
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  position: relative;
+  margin-right: 12px;
+  -webkit-appearance: none;
+  appearance: none;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.todo-checkbox:checked {
+  border-color: var(--accent-color, #5997ac);
+  background-color: var(--accent-color, #5997ac);
+}
+
+.todo-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border-right: 2px solid var(--text-on-accent, #ffffff);
+  border-bottom: 2px solid var(--text-on-accent, #ffffff);
+  transform: rotate(45deg);
+}
+
+.todo-item span {
+  flex: 1;
+  font-size: 14px;
+  word-break: break-word;
+  transition: all 0.2s;
+  color: var(--text-primary);
+}
+
+.todo-item.completed span {
+  text-decoration: line-through;
+  color: var(--text-secondary, #999);
+}
+
+.todo-item .delete-task {
+  opacity: 0;
+  margin-left: 10px;
+  color: var(--error-color, #e74c3c);
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.todo-item:hover .delete-task {
+  opacity: 0.7;
+}
+
+.todo-item .delete-task:hover {
+  opacity: 1;
+}
+
+/* Empty state */
+.empty-tasks-message {
+  text-align: center;
+  padding: 30px 0;
+  color: var(--text-secondary, #999);
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Todo footer */
+.todo-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-tertiary, #f8f9fa);
+  font-size: 13px;
+}
+
+.todo-stats {
+  color: var(--text-secondary, #666);
+}
+
+.tasks-count {
+  margin-right: 12px;
+}
+
+.clear-completed-btn {
+  background: none;
+  border: none;
+  color: var(--accent-color, #5997ac);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.clear-completed-btn:hover:not(:disabled) {
+  background-color: var(--accent-light-transparent, rgba(89, 151, 172, 0.1));
+}
+
+.clear-completed-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animation for new tasks */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.todo-item.new-task {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Add multiple button */
+.add-multiple-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-multiple-btn i {
+  font-size: 12px;
+}
+
+.featured-action {
+  background: none;
+  border: none;
+  color: #5997ac;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.featured-action:hover {
+  text-decoration: underline;
+}
+
+[data-theme="night"] .featured-content-card {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+[data-theme="night"] .featured-item {
+  background-color: #2d3748 !important;
+}
+
+[data-theme="night"] .featured-title {
+  color: #e5e7eb !important;
+}
+
+[data-theme="night"] .featured-description {
+  color: #9ca3af !important;
+}
+
+[data-theme="night"] .featured-action {
+  color: #7bb5f5 !important;
+}
+
+/* Upload Card Styles for Quiz Upload Page */
+.upload-card {
+  background-color: var(--background-secondary, white);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--card-shadow, 0 4px 20px rgba(0, 0, 0, 0.1));
+  margin-bottom: 2rem;
+
+  width: 90%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.upload-instruction {
+  margin-bottom: 2rem;
+  color: var(--text-tertiary, #555);
+}
+
+.upload-instruction p {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.file-input-container {
+  margin-bottom: 2rem;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: var(--brand-color, #af5166);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.file-input-label:hover {
+  background-color: var(--primary-color, #5997ac);
+}
+
+#file-input {
+  display: none;
+}
+
+.file-name {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text-tertiary, #555);
+}
+
+.upload-settings {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.upload-settings label {
+  color: var(--text-primary, #333);
+  font-weight: 500;
+}
+
+.upload-settings select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  background-color: var(--background-primary, #f9fafb);
+  color: var(--text-primary, #333);
+  font-size: 14px;
+}
+
+.upload-form .submit-button {
+  background-color: var(--brand-color, #af5166);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upload-form .submit-button:hover {
+  background-color: var(--primary-color, #5997ac);
+}
+
+.upload-form .submit-button:disabled {
+  background-color: var(--text-tertiary, #cccccc);
+  cursor: not-allowed;
+}
+
+.loading-indicator {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--text-tertiary, #555);
+}
+
+.spinner {
+  border: 4px solid var(--background-primary, #f3f3f3);
+  border-top: 4px solid var(--brand-color, #af5166);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Text Preview Container */
+.text-preview-container {
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 8px;
+  background-color: var(--background-primary, #f9fafb);
+}
+
+.text-preview-container h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--text-primary, #333);
+  font-weight: 600;
+}
+
+.text-preview-content {
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  background-color: var(--background-secondary, white);
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #eee);
+}
+
+.error-message {
+  color: var(--error-color, #ff3333);
+  margin-top: 8px;
+  font-size: 14px;
+  padding: 8px;
+  background-color: rgba(255, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+/* Night mode compatibility for upload card */
+[data-theme="night"] .upload-card {
+  background-color: #31456e;
+}
+
+[data-theme="night"] .upload-instruction,
+[data-theme="night"] .file-name {
+  color: #cbd5e1;
+}
+
+[data-theme="night"] .upload-settings select {
+  background-color: #31456e;
+  border-color: #4a5b82;
+  color: #e2e8f0;
+}
+
+[data-theme="night"] .text-preview-container {
+  background-color: #273555;
+  border-color: #4a5b82;
+}
+
+[data-theme="night"] .text-preview-content {
+  background-color: #31456e;
+  border-color: #4a5b82;
+  color: #e2e8f0;
+}
+
+.tasks-modal-container .add-tasks-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+}
+
+.tasks-modal-container .add-tasks-btn:hover {
+  background-color: #4a8697;
+}
+
+.tasks-modal-container .add-tasks-btn:active {
+  transform: translateY(1px);
+}
+
+.tasks-modal-container .add-tasks-btn i {
+  margin-right: 8px;
+}
+
+/* Animation for new tasks */
+.todo-list .todo-item.new-task {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+/* for the delete button */
+/* Document delete button styling */
+.document-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.document-delete {
+  cursor: pointer;
+  color: #e53935;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.document-delete:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.document-item {
+  transition: opacity 0.3s, height 0.3s, margin 0.3s, padding 0.3s;
+}
+
+
+
+/* addition to fix styling for the delete button */
+/* Improved document actions styling */
+.document-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0.5;
+  font-size: 14px;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.todo-item:hover .delete-task-btn {
+  opacity: 1;
+  color: #ef4444;
+}
+
+.delete-task-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Make sure todo items have position relative for absolute positioning of the delete button */
+.todo-item {
+  position: relative;
+  padding-right: 30px !important;
+}
+
+/* Night mode enhancements for delete button */
+[data-theme="night"] .delete-task-btn {
+  color: #9ca3af;
+}
+
+[data-theme="night"] .todo-item:hover .delete-task-btn {
+  color: #f87171;
+}
+
+[data-theme="night"] .delete-task-btn:hover {
+  background-color: rgba(248, 113, 113, 0.2);
+}
+
+/* Recent Quiz Scores styling */
+.scores-card {
+    background: var(--background-secondary, #ffffff);
+    border: 1px solid var(--border-color);
+    border-radius: 11px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.scores-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 15px;
+    color: var(--text-primary);
+}
+
+.scores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--background-tertiary, #f8f9fa);
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.score-item:hover {
+    transform: translateY(-2px);
+}
+
+.quiz-name {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.score {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.score.excellent {
+    background-color: var(--success-light, #ecfdf5);
+    color: var(--success-color, #059669);
+}
+
+.score.good {
+    background-color: var(--accent-light-transparent, rgba(89, 151, 172, 0.1));
+    color: var(--accent-color, #5997ac);
+}
+
+.score.average {
+    background-color: var(--warning-light, #fff7ed);
+    color: var(--warning-color, #ca8a04);
+}
+
+.score.needs-improvement {
+    background-color: var(--error-light, #fef2f2);
+    color: var(--error-color, #dc2626);
+}
+
+.empty-scores-message {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Night mode enhancements */
+[data-theme="night"] .scores-card {
+    background-color: var(--background-secondary, #1f2937);
+}
+
+[data-theme="night"] .score-item {
+    background-color: var(--background-tertiary, #374151);
+}
+
+[data-theme="night"] .score.excellent {
+    background-color: var(--success-dark, #064e3b);
+    color: var(--success-light, #d1fae5);
+}
+
+[data-theme="night"] .score.good {
+    background-color: var(--accent-dark-transparent, rgba(89, 151, 172, 0.2));
+    color: var(--accent-light, #a1cbdd);
+}
+
+[data-theme="night"] .score.average {
+    background-color: var(--warning-dark, #78350f);
+    color: var(--warning-light, #fef3c7);
+}
+
+[data-theme="night"] .score.needs-improvement {
+    background-color: var(--error-dark, #7f1d1d);
+    color: var(--error-light, #fee2e2);
+}
+
+
+
+
